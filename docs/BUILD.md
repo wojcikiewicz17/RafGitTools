@@ -22,6 +22,14 @@ This document provides detailed instructions for building RafGitTools from sourc
 4. **Git** (optional, for cloning)
    - Download: https://git-scm.com/
 
+### Gradle / AGP Compatibility Baseline
+
+- **Android Gradle Plugin (AGP)**: `8.3.0` (defined in `build.gradle`)
+- **Gradle Wrapper**: `8.4` (defined in `gradle/wrapper/gradle-wrapper.properties`)
+
+> Keep AGP/Kotlin/KSP aligned as one compatibility set. Do **not** partially mix
+> AGP 8.3.0 with Gradle 9.x without a coordinated plugin/toolchain upgrade.
+
 ### System Requirements
 
 - **OS**: Windows 10/11, macOS 10.14+, or Linux
@@ -62,6 +70,13 @@ If Gradle doesn't sync automatically:
 1. Click **File → Sync Project with Gradle Files**
 2. Wait for the sync to complete
 3. Check the **Build** panel for any errors
+
+Before running full builds, validate the wrapper bootstrap:
+
+```bash
+./gradlew --version
+./gradlew help
+```
 
 ### 4. Build Variants
 
