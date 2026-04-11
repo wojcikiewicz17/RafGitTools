@@ -11,7 +11,7 @@ This document provides detailed instructions for building RafGitTools from sourc
    - Download: https://developer.android.com/studio
 
 2. **Java Development Kit (JDK)**
-   - Version: JDK 17 or newer
+   - Version: JDK 17 to JDK 21 (recommended: JDK 17)
    - Android Studio includes JDK, or download from: https://adoptium.net/
 
 3. **Android SDK**
@@ -21,6 +21,16 @@ This document provides detailed instructions for building RafGitTools from sourc
 
 4. **Git** (optional, for cloning)
    - Download: https://git-scm.com/
+
+
+> ⚠️ Important: with the current Gradle/AGP baseline (`Gradle 8.4` + `AGP 8.3.0`), running with JDK 22+ can break Groovy script compilation (`Unsupported class file major version`).
+> If your machine has multiple JDKs, force JDK 17 before calling `./gradlew`:
+>
+> ```bash
+> export JAVA_HOME=/path/to/jdk-17
+> export PATH="$JAVA_HOME/bin:$PATH"
+> ./gradlew help
+> ```
 
 ### Gradle / AGP Compatibility Baseline
 
