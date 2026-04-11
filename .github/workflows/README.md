@@ -43,20 +43,36 @@ This directory contains comprehensive GitHub Actions workflows for the RafGitToo
 **Purpose**: Automates release creation and distribution
 
 **Jobs**:
-- **Build Release**: Builds production release APK
-- **Publish to Store**: Prepares app bundle for Play Store (manual)
+- **Build Release**: Builds **signed** production release APK
 
 **Features**:
+- Early fail if required signing secrets are missing
+- Keystore decoding from `RELEASE_STORE_FILE_BASE64`
 - Automatic version extraction
 - Changelog generation
 - GitHub release creation
-- APK/AAB artifact upload
+- APK artifact upload
+
+---
+
+#### 4. **Internal Validation** (`internal-validation.yml`)
+**Trigger**: Pull requests to main/develop, manual dispatch
+
+**Purpose**: Runs unsigned `assembleProductionRelease` only for internal validation (no official release publishing)
+
+**Jobs**:
+- **Unsigned Validation Build**: Builds production flavor with explicit `ALLOW_UNSIGNED_RELEASE=true`
+
+**Features**:
+- Isolated unsigned validation lane
+- Uploads unsigned APK artifact for verification
+- No GitHub Release publishing
 
 ---
 
 ### Security & Quality Workflows
 
-#### 4. **Security Scan** (`security.yml`)
+#### 5. **Security Scan** (`security.yml`)
 **Trigger**: Push/PR to main/develop, daily schedule (2 AM UTC), manual
 
 **Purpose**: Comprehensive security scanning
@@ -69,7 +85,7 @@ This directory contains comprehensive GitHub Actions workflows for the RafGitToo
 
 ---
 
-#### 5. **Code Coverage** (`coverage.yml`)
+#### 6. **Code Coverage** (`coverage.yml`)
 **Trigger**: Push/PR to main/develop, manual
 
 **Purpose**: Generates and tracks code coverage
@@ -84,7 +100,7 @@ This directory contains comprehensive GitHub Actions workflows for the RafGitToo
 
 ---
 
-#### 6. **Performance Metrics** (`performance.yml`)
+#### 7. **Performance Metrics** (`performance.yml`)
 **Trigger**: Push/PR to main, manual
 
 **Purpose**: Tracks performance metrics
@@ -103,7 +119,7 @@ This directory contains comprehensive GitHub Actions workflows for the RafGitToo
 
 ### Automation & Maintenance Workflows
 
-#### 7. **Documentation** (`docs.yml`)
+#### 8. **Documentation** (`docs.yml`)
 **Trigger**: Push/PR affecting docs, manual
 
 **Purpose**: Validates and generates documentation
@@ -121,7 +137,7 @@ This directory contains comprehensive GitHub Actions workflows for the RafGitToo
 
 ---
 
-#### 8. **Nightly Build** (`nightly.yml`)
+#### 9. **Nightly Build** (`nightly.yml`)
 **Trigger**: Daily schedule (3 AM UTC), manual
 
 **Purpose**: Comprehensive nightly build and test
@@ -138,7 +154,7 @@ This directory contains comprehensive GitHub Actions workflows for the RafGitToo
 
 ---
 
-#### 9. **Stale Issues and PRs** (`stale.yml`)
+#### 10. **Stale Issues and PRs** (`stale.yml`)
 **Trigger**: Daily schedule (1 AM UTC), manual
 
 **Purpose**: Manages stale issues and PRs
@@ -218,6 +234,7 @@ All workflows support manual triggering via `workflow_dispatch`. To run manually
 | PR Validation | ❌ | ✅ | ❌ | ❌ |
 | Security | ✅ | ✅ | ✅ Daily 2 AM | ✅ |
 | Release | ❌ | ❌ | ❌ | ✅ |
+| Internal Validation | ❌ | ✅ | ❌ | ✅ |
 | Coverage | ✅ | ✅ | ❌ | ✅ |
 | Performance | ✅ | ✅ | ❌ | ✅ |
 | Documentation | ✅ | ✅ | ❌ | ✅ |
