@@ -1,6 +1,6 @@
 # AUDIT BrowserRaf/internal
 
-## Correções aplicadas
+## Correções aplicadas 
 - `_start` em `br_start.S` não chama mais `_start`; agora chama `browser_main`.
 - `br_main.c` mudou entrypoint C para `browser_main` para evitar colisão de símbolo.
 - `usize` corrigido para 64-bit em ARM64/x86_64.
