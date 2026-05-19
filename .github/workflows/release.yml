@@ -44,7 +44,7 @@ jobs:
       - uses: android-actions/setup-android@v3
       - name: Apply CI runtime overlay zip
         run: ./scripts/apply_formula_ci_zip.sh formula_ci.zip
-      - run: chmod +x gradlew scripts/gradlew_with_java17.sh scripts/prepare_local_properties.sh scripts/apply_formula_ci_zip.sh
+      - run: chmod +x gradlew scripts/gradlew_with_java17.sh scripts/prepare_local_properties.sh scripts/apply_formula_ci_zip.sh scripts/native/verify_apks.sh
       - name: Generate local.properties
         run: ./scripts/prepare_local_properties.sh
       - name: Validate signing secrets
@@ -93,6 +93,8 @@ jobs:
           fi
       - name: Build production release APK
         run: ./scripts/gradlew_with_java17.sh assembleProductionRelease ${{ inputs.gradle_args || '--stacktrace --info' }}
+      - name: Validate release APK ABI/signature matrix
+        run: ./scripts/native/verify_apks.sh
       - name: Rename APK
         run: |
           VERSION=${{ steps.version.outputs.version }}
@@ -105,6 +107,7 @@ jobs:
           name: release-apk
           path: |
             app/build/outputs/apk/production/release/*.apk
+            app/build/reports/apk/*.tsv
             CHANGELOG.md
       - name: Create Release and Upload APK
         if: github.event_name != 'workflow_dispatch' || inputs.publish_github_release == true
